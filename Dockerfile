@@ -25,7 +25,7 @@ RUN apt-get install -y --no-install-recommends \
 	libpython3.6-dev python3-pip python3-dev
 
 RUN ./build.sh --update --config Release --build --build_wheel \
-   --use_cuda --cuda_home /opt/cuda-10.2 --cudnn_home /usr/lib/aarch64-linux-gnu
+   --use_cuda --cuda_home /usr/local/cuda-10.2 --cudnn_home /usr/lib/aarch64-linux-gnu
 
 #ENV ONNX_WHL=onnxruntime_gpu-1.11.0-cp36-cp36-linux_aarch64.whl
 ENV ONNX_WHL=onnxruntime_gpu-1.11.0-any-none-any.whl \

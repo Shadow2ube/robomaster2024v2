@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y wget python3-pip git
 
 WORKDIR /tmp
 
-RUN git clone --recursive https://github.com/microsoft/onnxruntime
+RUN git clone --branch v1.11.0 --recursive https://github.com/microsoft/onnxruntime
 
 WORKDIR onnxruntime
 

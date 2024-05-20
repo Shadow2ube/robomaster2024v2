@@ -10,23 +10,33 @@ RUN apt-get update \
 RUN pip3 install ultralytics
 RUN yolo export model=model.pt format=onnx
 
-#FROM nvcr.io/nvidia/l4t-ml:r32.7.1-py3
-FROM mcr.microsoft.com/azureml/onnxruntime:v.1.4.0-jetpack4.4-l4t-base-r32.4.3
+FROM nvcr.io/nvidia/l4t-ml:r32.7.1-py3
 
-ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y wget python3-pip git
 
-RUN apt-get update
+WORKDIR /tmp
+
+RUN git clone --recursive https://github.com/microsoft/onnxruntime
+
+WORKDIR onnxruntime
+
+RUN apt-get install -y --no-install-recommends \
+    build-essential software-properties-common cmake libopenblas-dev \
+	libpython3.6-dev python3-pip python3-dev
+
+RUN ./build.sh --update --config Release --build --build_wheel \
+   --use_cuda --cuda_home /opt/cuda-10.2 --cudnn_home /usr/lib/aarch64-linux-gnu
+
+#ENV ONNX_WHL=onnxruntime_gpu-1.11.0-cp36-cp36-linux_aarch64.whl
+ENV ONNX_WHL=onnxruntime_gpu-1.11.0-any-none-any.whl \
+    ONNX_INSTALL=https://nvidia.box.com/shared/static/bfs688apyvor4eo8sf3y1oqtnarwafww.whl
+RUN wget ${ONNX_INSTALL} -O ${ONNX_WHL}
+RUN python3 -m pip install ${ONNX_WHL}
+
 
 RUN useradd -m --uid 1000 dockeruser && groupmod --gid 985 video && usermod -a -G video dockeruser
-
 RUN mkdir -p /opt/detect && chown dockeruser:dockeruser /opt/detect -R
 COPY --from=pt_to_onnx /model.onnx /opt/detect/
-
-RUN apt-get update && apt-get install -y python3-pip libprotobuf-dev protobuf-compiler python3-scipy
-RUN python3 -m pip install onnx==1.6.0 easydict matplotlib
-
 USER dockeruser
-
-ADD ./src /opt/detect
 
 CMD ["/bin/bash"]

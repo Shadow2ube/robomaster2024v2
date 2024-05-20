@@ -25,4 +25,4 @@ print("Output shape:", detections.shape)
 image = post.image_postprocess(original_image, input_size, detections)
 
 image = Image.fromarray(image)
-image.save("../testing/kite-with-objects.jpg")
+image.save("kite-with-objects.jpg")

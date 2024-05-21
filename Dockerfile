@@ -23,6 +23,8 @@ WORKDIR cmake-3.19.1-build
 RUN cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../cmake-3.19.1 \
     && make -j $(nproc)
 
+RUN make install
+
 FROM nvcr.io/nvidia/l4t-ml:r32.7.1-py3
 
 RUN apt-get update && apt-get install -y wget python3-pip git
@@ -31,8 +33,7 @@ WORKDIR /tmp
 
 RUN git clone --branch v1.11.0 --recursive https://github.com/microsoft/onnxruntime
 
-COPY --from=cmake_build /tmp/cmake-build /tmp/cmake-build
-RUN cd /tmp/cmake-build/cmake-3.19.1-build && make install
+COPY --from=cmake_build /bin/cmake /bin/cmake
 
 WORKDIR onnxruntime
 

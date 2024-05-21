@@ -13,13 +13,14 @@ RUN yolo export model=model.pt format=onnx
 FROM ubuntu:focal as cmake_build
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y cmake make wget libssl-dev openssl qt5-default \
-    && mkdir /tmp/cmake-build && cd /tmp/cmake-build \
-    && wget -c --show-progress https://github.com/Kitware/CMake/releases/download/v3.19.1/cmake-3.19.1.tar.gz \
+RUN apt-get update && apt-get install -y cmake make wget libssl-dev openssl qt5-default gcc g++ \
+    && mkdir /tmp/cmake-build
+WORKDIR /tmp/cmake-build
+RUN wget -c --show-progress https://github.com/Kitware/CMake/releases/download/v3.19.1/cmake-3.19.1.tar.gz \
     && tar xvf cmake-3.19.1.tar.gz \
-    && mkdir cmake-3.19.1-build \
-    && cd cmake-3.19.1-build \
-    && cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../cmake-3.19.1 \
+    && mkdir cmake-3.19.1-build
+WORKDIR cmake-3.19.1-build
+RUN cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../cmake-3.19.1 \
     && make -j $(nproc)
 
 FROM nvcr.io/nvidia/l4t-ml:r32.7.1-py3

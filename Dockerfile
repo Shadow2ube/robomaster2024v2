@@ -45,6 +45,8 @@ COPY --from=cmake_build /usr/local/bin/cmake /usr/local/bin/cmake
 
 WORKDIR onnxruntime
 
+RUN apt-get install -y libstdc++6
+
 RUN ./build.sh --update --config Release --build --build_wheel \
    --use_cuda --cuda_home /usr/local/cuda-10.2 --cudnn_home /usr/lib/aarch64-linux-gnu
 

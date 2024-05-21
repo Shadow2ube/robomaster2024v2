@@ -22,7 +22,7 @@ RUN apt-get install -y --no-install-recommends \
     build-essential software-properties-common libopenblas-dev \
 	libpython3.6-dev python3-pip python3-dev
 
-ENV DEBIAN_FRONTEND=noninteractive CMAKE_VERSION=3.16.9 CMAKE_INSTALL_NAME=cmake-3.16
+ENV DEBIAN_FRONTEND=noninteractive CMAKE_VERSION=3.18.0
 RUN apt-get update && apt-get install -y cmake make wget libssl-dev openssl qt5-default gcc g++ \
     && mkdir /tmp/cmake-build \
     && cd /tmp/cmake-build \

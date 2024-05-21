@@ -20,6 +20,8 @@ RUN git clone --branch v1.11.0 --recursive https://github.com/microsoft/onnxrunt
 
 WORKDIR onnxruntime
 
+RUN git checkout v1.11.0 --recurse-submodules
+
 RUN apt-get install -y --no-install-recommends \
     build-essential software-properties-common cmake libopenblas-dev \
 	libpython3.6-dev python3-pip python3-dev

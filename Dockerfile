@@ -31,7 +31,7 @@ WORKDIR /tmp
 
 RUN git clone --branch v1.11.0 --recursive https://github.com/microsoft/onnxruntime
 
-COPY --from=cmake_build /tmp/cmake-build /tmp/
+COPY --from=cmake_build /tmp/cmake-build /tmp/cmake-build
 RUN cd /tmp/cmake-build/cmake-3.19.1-build && make install
 
 WORKDIR onnxruntime

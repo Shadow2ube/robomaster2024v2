@@ -37,7 +37,7 @@ RUN apt-get install -y --no-install-recommends \
     build-essential software-properties-common libopenblas-dev \
 	libpython3.6-dev python3-pip python3-dev
 
-COPY --from=cmake_build /usr/share/cmake-3.19 /usr/share/cmake-3.19
+COPY --from=cmake_build /usr/local/share/cmake-3.19 /usr/local/share/cmake-3.19
 COPY --from=cmake_build /usr/local/bin/cmake /usr/local/bin/cmake
 
 WORKDIR onnxruntime

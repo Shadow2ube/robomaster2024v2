@@ -16,11 +16,14 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y cmake make wget libssl-dev openssl qt5-default gcc g++ \
     && mkdir /tmp/cmake-build
 WORKDIR /tmp/cmake-build
-RUN wget -c --show-progress https://github.com/Kitware/CMake/releases/download/v3.19.1/cmake-3.19.1.tar.gz \
-    && tar xvf cmake-3.19.1.tar.gz \
-    && mkdir cmake-3.19.1-build
-WORKDIR cmake-3.19.1-build
-RUN cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../cmake-3.19.1 \
+
+ENV CMAKE_VERSION=3.16.9 CMAKE_INSTALL_NAME=cmake-3.16
+
+RUN wget -c --show-progress https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.tar.gz \
+    && tar xvf ${CMAKE_VERSION}.tar.gz \
+    && mkdir ${CMAKE_VERSION}-build
+WORKDIR ${CMAKE_VERSION}-build
+RUN cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../cmake-${CMAKE_VERSION} \
     && make -j $(nproc)
 
 RUN make install
@@ -37,7 +40,7 @@ RUN apt-get install -y --no-install-recommends \
     build-essential software-properties-common libopenblas-dev \
 	libpython3.6-dev python3-pip python3-dev
 
-COPY --from=cmake_build /usr/local/share/cmake-3.19 /usr/local/share/cmake-3.19
+COPY --from=cmake_build /usr/local/share/${CMAKE_INSTALL_NAME} /usr/local/share/${CMAKE_INSTALL_NAME}
 COPY --from=cmake_build /usr/local/bin/cmake /usr/local/bin/cmake
 
 WORKDIR onnxruntime

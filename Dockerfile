@@ -33,15 +33,14 @@ WORKDIR /tmp
 
 RUN git clone --branch v1.11.0 --recursive https://github.com/microsoft/onnxruntime
 
-COPY --from=cmake_build /bin/cmake /bin/cmake
+RUN apt-get install -y --no-install-recommends \
+    build-essential software-properties-common libopenblas-dev \
+	libpython3.6-dev python3-pip python3-dev
+
+COPY --from=cmake_build /usr/share/cmake-3.19 /usr/share/cmake-3.19
+COPY --from=cmake_build /usr/local/bin/cmake /usr/local/bin/cmake
 
 WORKDIR onnxruntime
-
-RUN git checkout v1.11.0 --recurse-submodules
-
-RUN apt-get install -y --no-install-recommends \
-    build-essential software-properties-common cmake libopenblas-dev \
-	libpython3.6-dev python3-pip python3-dev
 
 RUN ./build.sh --update --config Release --build --build_wheel \
    --use_cuda --cuda_home /usr/local/cuda-10.2 --cudnn_home /usr/lib/aarch64-linux-gnu

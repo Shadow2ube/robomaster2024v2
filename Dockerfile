@@ -12,7 +12,7 @@ RUN yolo export model=model.pt format=onnx
 
 FROM ubuntu:focal as cmake_build
 
-RUN apt-get update && apt-get install -y wget libssl-dev openssl1.0 qt5-default \
+RUN apt-get update && apt-get install -y wget libssl-dev openssl qt5-default \
     && mkdir /tmp/cmake-build && cd /tmp/cmake-build \
     && wget -c --show-progress https://github.com/Kitware/CMake/releases/download/v3.19.1/cmake-3.19.1.tar.gz \
     && tar xvf cmake-3.19.1.tar.gz \

@@ -10,9 +10,9 @@ def image_preprocess(image, target_size, gt_boxes=None):
     nw, nh = int(scale * w), int(scale * h)
     image_resized = cv2.resize(image, (nw, nh))
 
-    image_padded = np.full(shape=[ih, iw, 3], fill_value=128.0)
+    image_padded = np.full(shape=[3, ih, iw], fill_value=128.0)
     dw, dh = (iw - nw) // 2, (ih - nh) // 2
-    image_padded[dh:nh + dh, dw:nw + dw, :] = image_resized
+    image_padded[:, dh:nh + dh, dw:nw + dw] = image_resized
     image_padded = image_padded / 255.
 
     if gt_boxes is None:

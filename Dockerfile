@@ -16,7 +16,6 @@ RUN apt-get update && apt-get install -y wget python3-pip git
 
 WORKDIR /tmp
 
-RUN git clone --branch v1.11.0 --recursive https://github.com/microsoft/onnxruntime
 
 RUN apt-get install -y --no-install-recommends \
     build-essential software-properties-common libopenblas-dev \
@@ -34,16 +33,16 @@ RUN apt-get update && apt-get install -y cmake make wget libssl-dev openssl qt5-
     && make -j $(nproc) \
     && make install
 
+ENV ONNXRUNTIME_VERSION=1.9.1
+RUN git clone --branch v${ONNXRUNTIME_VERSION} --recursive https://github.com/microsoft/onnxruntime
+
 WORKDIR onnxruntime
 
 RUN ./build.sh --update --config Release --build --build_wheel \
-   --use_cuda --cuda_home /usr/local/cuda-10.2 --cudnn_home /usr/lib/aarch64-linux-gnu
+   --use_cuda --cuda_home /usr/local/cuda-10.2 --cudnn_home /usr/lib/aarch64-linux-gnu \
 
-#ENV ONNX_WHL=onnxruntime_gpu-1.11.0-cp36-cp36-linux_aarch64.whl
-ENV ONNX_WHL=onnxruntime_gpu-1.11.0-any-none-any.whl \
-    ONNX_INSTALL=https://nvidia.box.com/shared/static/bfs688apyvor4eo8sf3y1oqtnarwafww.whl
-RUN wget ${ONNX_INSTALL} -O ${ONNX_WHL}
-RUN python3 -m pip install ${ONNX_WHL}
+ENV ONNXRUNTIME_WHL=/tmp/onnxruntime/build/Linux/Release/dist/onnxruntime_gpu-${ONNXRUNTIME_VERSION}-cp36-cp36m-linux_aarch64.whl
+RUN python3 -m pip install ${ONNXRUNTIME_WHL}
 
 
 RUN useradd -m --uid 1000 dockeruser && groupmod --gid 985 video && usermod -a -G video dockeruser

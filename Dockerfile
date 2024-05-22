@@ -10,7 +10,8 @@ RUN apt-get update \
 RUN pip3 install ultralytics
 RUN yolo export model=model.pt format=onnx
 RUN pip3 install onnx
-RUN python3 -c "from onnx import version_converter, helper; onnx.save(version_converter.convert_version(onnx.load('model.onnx'), 15), 'model.onnx')"
+RUN echo "#!/bin/python3\nfrom onnx import version_converter, helper\n onnx.save(version_converter.convert_version(onnx.load('model.onnx'), 15), 'model.onnx')\n" > /convert.py
+RUN python3 /convert.py
 
 FROM nvcr.io/nvidia/l4t-ml:r32.7.1-py3
 

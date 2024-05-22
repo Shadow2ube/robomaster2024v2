@@ -18,7 +18,7 @@ sess = rt.InferenceSession("/opt/detect/model.onnx")
 output_name = sess.get_outputs()[0].name
 input_name = sess.get_inputs()[0].name
 
-print(output_name, input_name)
+print(sess.get_outputs(), sess.get_inputs())
 
 detections = sess.run([output_name], {input_name: image_data})[0]
 

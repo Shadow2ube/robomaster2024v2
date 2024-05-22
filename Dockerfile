@@ -39,7 +39,7 @@ RUN git clone --branch v${ONNXRUNTIME_VERSION} --recursive https://github.com/mi
 WORKDIR onnxruntime
 
 RUN ./build.sh --update --config Release --build --build_wheel \
-   --use_cuda --cuda_home /usr/local/cuda-10.2 --cudnn_home /usr/lib/aarch64-linux-gnu \
+   --use_cuda --cuda_home /usr/local/cuda-10.2 --cudnn_home /usr/lib/aarch64-linux-gnu
 
 ENV ONNXRUNTIME_WHL=/tmp/onnxruntime/build/Linux/Release/dist/onnxruntime_gpu-${ONNXRUNTIME_VERSION}-cp36-cp36m-linux_aarch64.whl
 RUN python3 -m pip install ${ONNXRUNTIME_WHL}

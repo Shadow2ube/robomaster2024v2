@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="84cb132b-5edb-4c14-8e37-7e4dd8c5b488" name="Changes" comment="aaaaaaaa">
+    <list default="true" id="84cb132b-5edb-4c14-8e37-7e4dd8c5b488" name="Changes" comment="reordering and we now have a script for converting the YOLOv8 .pt file into an onnx file with an nms because by default it doesn't export with that&#10;Also made a class to deal with all the inference shenanigans">
+      <change afterPath="$PROJECT_DIR$/models/model.pt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/YOLOv8.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/covertv8onnx.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
@@ -107,7 +108,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="covertv8onnx" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="convertv8onnx" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="robomaster2024v2" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -121,7 +122,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/covertv8onnx.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/convertv8onnx.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -154,14 +155,14 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.covertv8onnx" />
       <item itemvalue="Python.main" />
       <item itemvalue="Python.YOLOv8" />
+      <item itemvalue="Python.convertv8onnx" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.YOLOv8" />
-        <item itemvalue="Python.covertv8onnx" />
+        <item itemvalue="Python.convertv8onnx" />
         <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
@@ -187,7 +188,7 @@
       <workItem from="1716220671468" duration="2173000" />
       <workItem from="1716229035603" duration="12322000" />
       <workItem from="1716335294228" duration="1593000" />
-      <workItem from="1716340896030" duration="23872000" />
+      <workItem from="1716340896030" duration="24350000" />
     </task>
     <task id="LOCAL-00001" summary="Added a README.md">
       <option name="closed" value="true" />
@@ -477,7 +478,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716406638988</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="reordering and we now have a script for converting the YOLOv8 .pt file into an onnx file with an nms because by default it doesn't export with that&#10;Also made a class to deal with all the inference shenanigans">
+      <option name="closed" value="true" />
+      <created>1716589506935</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1716589506935</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -495,7 +504,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="no interactions plz" />
     <MESSAGE value="you need cmake to make cmake" />
     <MESSAGE value="need g++" />
     <MESSAGE value="do the install on another stage and copy it in" />
@@ -520,7 +528,8 @@
     <MESSAGE value="je suis hackerman" />
     <MESSAGE value="BIG LIST OPERATOR" />
     <MESSAGE value="aaaaaaaa" />
-    <option name="LAST_COMMIT_MESSAGE" value="aaaaaaaa" />
+    <MESSAGE value="reordering and we now have a script for converting the YOLOv8 .pt file into an onnx file with an nms because by default it doesn't export with that&#10;Also made a class to deal with all the inference shenanigans" />
+    <option name="LAST_COMMIT_MESSAGE" value="reordering and we now have a script for converting the YOLOv8 .pt file into an onnx file with an nms because by default it doesn't export with that&#10;Also made a class to deal with all the inference shenanigans" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/robomaster2024v2$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1716146732181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />

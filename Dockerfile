@@ -4,14 +4,15 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 ARG MODEL_PATH=./model.pt
 ADD ${MODEL_PATH} /model.pt
+ARG CONVERTER_PATH=./src/convertv8onnx.py
+ADD ${CONVERTER_PATH} /convert.py
 
 RUN apt-get update \
     && apt-get install -y python3 python3-pip ffmpeg libsm6 libxext6
 RUN pip3 install ultralytics
 RUN yolo export model=model.pt format=onnx
 RUN pip3 install onnx
-RUN echo "#!/bin/python3\nimport onnx\nfrom onnx import version_converter, helper\nonnx.save(version_converter.convert_version(onnx.load('model.onnx'), 15), 'model.onnx')\n" > /convert.py
-RUN python3 /convert.py
+RUN python3 /convert.py /model.pt
 
 FROM nvcr.io/nvidia/l4t-ml:r32.7.1-py3
 
@@ -50,7 +51,7 @@ RUN python3 -m pip install ${ONNXRUNTIME_WHL}
 
 RUN useradd -m --uid 1000 dockeruser && groupmod --gid 985 video && usermod -a -G video dockeruser
 RUN mkdir -p /opt/detect && chown dockeruser:dockeruser /opt/detect -R
-COPY --from=pt_to_onnx /model.onnx /opt/detect/
+COPY --from=pt_to_onnx /final.onnx /opt/detect/model.onnx
 USER dockeruser
 
 CMD ["/bin/bash"]

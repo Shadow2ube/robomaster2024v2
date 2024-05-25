@@ -16,13 +16,13 @@ from torch import nn
 from ultralytics import YOLO
 
 model = YOLO(sys.argv[1])
-onnx_model_path = '../models/model.onnx'
+onnx_model_path = './model.onnx'
 
 model.export(format='onnx', simplify=True, imgsz=[640, 640], batch=1)
 
 # load the model and manipulate it
 onnx_model = onnx.load_model(onnx_model_path)
-onnx_fpath = "../best_nms.onnx"
+onnx_fpath = "./best_nms.onnx"
 
 graph = onnx_model.graph
 
@@ -131,7 +131,7 @@ torch_indices = torch.tensor([[0, 0, 0], [0, 0, 2], [0, 0, 1]])
 
 t_model = Transform()
 
-torch.onnx.export(t_model, (torch_indices, torch_boxes, torch_scores), "../models/NMS_after.onnx",
+torch.onnx.export(t_model, (torch_indices, torch_boxes, torch_scores), "./NMS_after.onnx",
                   input_names=["selected_indices", "boxes", "scores"],
                   output_names=["det_bboxes", "det_scores", "det_classes", "num_dets"],
                   dynamic_axes={
@@ -143,11 +143,11 @@ torch.onnx.export(t_model, (torch_indices, torch_boxes, torch_scores), "../model
                       "det_classes": {1: "num_results"},
                   })
 
-nms_postprocess_onnx_model = onnx.load_model("../models/NMS_after.onnx")
+nms_postprocess_onnx_model = onnx.load_model("./NMS_after.onnx")
 # nms_postprocess_onnx_model_sim, check = onnxsim.simplify(nms_postprocess_onnx_model)
-onnx.save(nms_postprocess_onnx_model, "../models/model_sim.onnx")
+onnx.save(nms_postprocess_onnx_model, "./model_sim.onnx")
 
-combined_onnx_path = "../models/final.onnx"
+combined_onnx_path = "./final.onnx"
 
 target_ir_version = 15
 core_model = convert_version(updated_onnx_model, target_ir_version)

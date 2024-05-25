@@ -144,7 +144,7 @@ torch.onnx.export(t_model, (torch_indices, torch_boxes, torch_scores), "../model
                   })
 
 nms_postprocess_onnx_model = onnx.load_model("../models/NMS_after.onnx")
-nms_postprocess_onnx_model_sim, check = onnxsim.simplify(nms_postprocess_onnx_model)
+# nms_postprocess_onnx_model_sim, check = onnxsim.simplify(nms_postprocess_onnx_model)
 onnx.save(nms_postprocess_onnx_model, "../models/model_sim.onnx")
 
 combined_onnx_path = "../models/final.onnx"
@@ -158,7 +158,8 @@ onnx.checker.check_model(core_model)
 core_model.ir_version = 8
 
 # core_model = updated_onnx_model
-post_process_model = convert_version(nms_postprocess_onnx_model_sim, target_ir_version)
+# post_process_model = convert_version(nms_postprocess_onnx_model_sim, target_ir_version)
+post_process_model = convert_version(nms_postprocess_onnx_model, target_ir_version)
 # this output is weird, it still say it's version 7, even after convert
 print(f"post_process_model version : {post_process_model.ir_version}")
 onnx.checker.check_model(post_process_model)

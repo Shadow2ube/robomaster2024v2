@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="84cb132b-5edb-4c14-8e37-7e4dd8c5b488" name="Changes" comment="added onnxsim">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="84cb132b-5edb-4c14-8e37-7e4dd8c5b488" name="Changes" comment="more oops">
+      <change beforePath="$PROJECT_DIR$/src/convertv8onnx.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/convertv8onnx.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +73,7 @@
       <recent name="$PROJECT_DIR$/testing/images" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.YOLOv8">
+  <component name="RunManager" selected="Python.convertv8onnx">
     <configuration name="YOLOv8" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="robomaster2024v2" />
       <option name="ENV_FILES" value="" />
@@ -112,7 +112,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/convertv8onnx.py" />
-      <option name="PARAMETERS" value="" />
+      <option name="PARAMETERS" value="../models/model.pt" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -150,8 +150,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.YOLOv8" />
         <item itemvalue="Python.convertv8onnx" />
+        <item itemvalue="Python.YOLOv8" />
         <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
@@ -177,7 +177,7 @@
       <workItem from="1716220671468" duration="2173000" />
       <workItem from="1716229035603" duration="12322000" />
       <workItem from="1716335294228" duration="1593000" />
-      <workItem from="1716340896030" duration="26815000" />
+      <workItem from="1716340896030" duration="27198000" />
     </task>
     <task id="LOCAL-00001" summary="Added a README.md">
       <option name="closed" value="true" />
@@ -491,7 +491,31 @@
       <option name="project" value="LOCAL" />
       <updated>1716595268008</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="turns out I need cmake">
+      <option name="closed" value="true" />
+      <created>1716595638844</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1716595638844</updated>
+    </task>
+    <task id="LOCAL-00041" summary="oops">
+      <option name="closed" value="true" />
+      <created>1716595736156</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1716595736156</updated>
+    </task>
+    <task id="LOCAL-00042" summary="more oops">
+      <option name="closed" value="true" />
+      <created>1716595775560</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1716595775560</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -509,8 +533,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="do the install on another stage and copy it in" />
-    <MESSAGE value="reordering" />
     <MESSAGE value="wrong dir" />
     <MESSAGE value="apperently cmake 3.19 is a no go" />
     <MESSAGE value="idek why this is an error" />
@@ -520,7 +542,6 @@
     <MESSAGE value="As I walk through the valley of the shadow of death&#10;I take a look at my life and realize there's nothin' left&#10;'Cause I've been blastin' and laughin' so long that&#10;Even my momma thinks that my mind is gone" />
     <MESSAGE value="gotta add the onnx because the world is cruel" />
     <MESSAGE value="gotta convert to a different onnx version cause that's a thing" />
-    <MESSAGE value="oops" />
     <MESSAGE value="idk" />
     <MESSAGE value="unexpected indent" />
     <MESSAGE value="oops again" />
@@ -534,7 +555,10 @@
     <MESSAGE value="reordering and we now have a script for converting the YOLOv8 .pt file into an onnx file with an nms because by default it doesn't export with that&#10;Also made a class to deal with all the inference shenanigans" />
     <MESSAGE value="i am silly" />
     <MESSAGE value="added onnxsim" />
-    <option name="LAST_COMMIT_MESSAGE" value="added onnxsim" />
+    <MESSAGE value="turns out I need cmake" />
+    <MESSAGE value="oops" />
+    <MESSAGE value="more oops" />
+    <option name="LAST_COMMIT_MESSAGE" value="more oops" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/robomaster2024v2$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1716146732181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />

@@ -8,13 +8,8 @@ WORKDIR /tmp
 
 RUN apt-get install -y libfreetype6-dev
 
-RUN git clone https://github.com/ultralytics/ultralytics
-#RUN cd ultralytics \
-#    && cat pyproject.toml \
-#    | grep -Pzo 'dependencies = \[[\s\n]+("\w+.*,[\s#\w]+)+[\s\n]' \
-#    | grep -Pzo '\s".*"' \
-#    | sed -e 's/ "pillow>=7.1.2"//g' -e 's/ "matplotlib>=3.3.0"//g' \
-#    | xargs -0 pip3 install
+RUN git clone https://github.com/ultralytics/yolov5
+RUN cd /tmp/yolov5 && sed -e 's/torch/# torch/g' requirements.txt && pip3 install -r requirements.txt
 
 RUN apt-get install -y libopenblas-base libopenmpi-dev libjpeg-dev zlib1g-dev
 

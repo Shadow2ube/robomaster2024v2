@@ -15,6 +15,7 @@ RUN cd /tmp/yolov5 \
       -e 's/gitpython>=3.1.30/gitpython>=3.1.20/g' \
       -e 's/numpy>=1.23.5/numpy>=1.19.5/g' \
       -e 's/pillow/# pillow/g' \
+      -e 's/requests>=2.32.0/requests>=2.27.1/g' \
       requirements.txt \
     && pip3 install -r requirements.txt
 

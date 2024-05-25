@@ -6,7 +6,7 @@
 #     sometimes it just fail to export
 import sys
 import onnx
-import onnxsim
+# import onnxsim
 import torch
 from onnx import TensorProto
 from onnx.compose import merge_models

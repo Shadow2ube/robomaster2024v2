@@ -73,7 +73,7 @@ class YOLOv8:
         self.session = None
         self.initialize_model(path, providers)
 
-    def __call__(self, image: cv2.Mat):
+    def __call__(self, image):
         return self.detect_objects(image)
 
     def initialize_model(self, path, providers):
@@ -83,7 +83,7 @@ class YOLOv8:
         self.get_input_details()
         self.get_output_details()
 
-    def detect_objects(self, image: cv2.Mat):
+    def detect_objects(self, image):
         input_tensor = self.prepare_input(image)
 
         # Perform inference on the image
@@ -96,7 +96,7 @@ class YOLOv8:
 
         return self.boxes, self.scores, self.class_ids
 
-    def prepare_input(self, image: cv2.Mat):
+    def prepare_input(self, image):
         self.img_height, self.img_width = image.shape[:2]
 
         input_img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)

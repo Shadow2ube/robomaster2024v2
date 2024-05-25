@@ -14,7 +14,7 @@ RUN cd /tmp/yolov5 \
       -e 's/torch/# torch/g' \
       -e 's/gitpython>=3.1.30/gitpython>=3.1.20/g' \
       -e 's/numpy>=1.23.5/numpy>=1.19.5/g' \
-      -e 's/pillow>=10.3.0/pillow>=8.4.0/g' \
+      -e 's/pillow/# pillow/g' \
       requirements.txt \
     && pip3 install -r requirements.txt
 

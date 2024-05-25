@@ -9,7 +9,7 @@ WORKDIR /tmp
 RUN apt-get install -y libfreetype6-dev
 
 RUN git clone https://github.com/ultralytics/yolov5
-RUN cd /tmp/yolov5 && sed -e 's/torch/# torch/g' -e 's/gitpython>=3.1.30/gitpython>=3.1.20/g' requirements.txt && pip3 install -r requirements.txt
+RUN cd /tmp/yolov5 && sed -i -e 's/torch/# torch/g' -e 's/gitpython>=3.1.30/gitpython>=3.1.20/g' requirements.txt && pip3 install -r requirements.txt
 
 RUN apt-get install -y libopenblas-base libopenmpi-dev libjpeg-dev zlib1g-dev
 

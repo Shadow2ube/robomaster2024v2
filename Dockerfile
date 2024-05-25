@@ -11,6 +11,7 @@ RUN apt-get update \
     && apt-get install -y python3 python3-pip ffmpeg libsm6 libxext6
 RUN pip3 install ultralytics
 RUN yolo export model=model.pt format=onnx
+RUN apt-get install cmake make
 RUN pip3 install onnx onnxsim
 RUN python3 /convert.py /model.pt
 

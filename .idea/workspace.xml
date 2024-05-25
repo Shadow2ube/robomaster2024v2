@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="84cb132b-5edb-4c14-8e37-7e4dd8c5b488" name="Changes" comment="i am silly">
+    <list default="true" id="84cb132b-5edb-4c14-8e37-7e4dd8c5b488" name="Changes" comment="added onnxsim">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -177,7 +177,7 @@
       <workItem from="1716220671468" duration="2173000" />
       <workItem from="1716229035603" duration="12322000" />
       <workItem from="1716335294228" duration="1593000" />
-      <workItem from="1716340896030" duration="25840000" />
+      <workItem from="1716340896030" duration="26815000" />
     </task>
     <task id="LOCAL-00001" summary="Added a README.md">
       <option name="closed" value="true" />
@@ -483,7 +483,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716589789126</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="added onnxsim">
+      <option name="closed" value="true" />
+      <created>1716595268008</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1716595268008</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -501,7 +509,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="need g++" />
     <MESSAGE value="do the install on another stage and copy it in" />
     <MESSAGE value="reordering" />
     <MESSAGE value="wrong dir" />
@@ -526,7 +533,8 @@
     <MESSAGE value="aaaaaaaa" />
     <MESSAGE value="reordering and we now have a script for converting the YOLOv8 .pt file into an onnx file with an nms because by default it doesn't export with that&#10;Also made a class to deal with all the inference shenanigans" />
     <MESSAGE value="i am silly" />
-    <option name="LAST_COMMIT_MESSAGE" value="i am silly" />
+    <MESSAGE value="added onnxsim" />
+    <option name="LAST_COMMIT_MESSAGE" value="added onnxsim" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/robomaster2024v2$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1716146732181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src" />

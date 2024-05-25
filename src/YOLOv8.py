@@ -61,7 +61,9 @@ def draw_detections(image, boxes, scores, class_ids, mask_alpha=0.3):
 
 class YOLOv8:
 
-    def __init__(self, path, ):
+    def __init__(self, path, providers=None):
+        if providers is None:
+            providers = ['CUDAExecutionProvider', 'CPUExecutionProvider']
         # Initialize model
         self.class_ids = None
         self.scores = None
@@ -69,22 +71,19 @@ class YOLOv8:
         self.img_height = None
         self.img_width = None
         self.session = None
-        self.initialize_model(path)
+        self.initialize_model(path, providers)
 
-    def __call__(self, image):
+    def __call__(self, image: cv2.Mat):
         return self.detect_objects(image)
 
-    def initialize_model(self, path, providers=None):
-        if providers is None:
-            providers = ['CUDAExecutionProvider', 'CPUExecutionProvider']
-
+    def initialize_model(self, path, providers):
         self.session: onnxruntime.InferenceSession = onnxruntime.InferenceSession(path, providers=providers)
 
         # Get model info
         self.get_input_details()
         self.get_output_details()
 
-    def detect_objects(self, image):
+    def detect_objects(self, image: cv2.Mat):
         input_tensor = self.prepare_input(image)
 
         # Perform inference on the image
@@ -93,10 +92,11 @@ class YOLOv8:
         self.boxes = xywh2xyxy(self.rescale_boxes(np.squeeze(outputs[0])))
         self.scores = np.squeeze(outputs[1])
         self.class_ids = np.squeeze(outputs[2])
+        print(self.boxes)
 
         return self.boxes, self.scores, self.class_ids
 
-    def prepare_input(self, image):
+    def prepare_input(self, image: cv2.Mat):
         self.img_height, self.img_width = image.shape[:2]
 
         input_img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -149,20 +149,23 @@ if __name__ == '__main__':
 
     if len(sys.argv) != 3:
         print('invalid number of arguments, expected 2:\npython3 YOLOv8.py [model_path] [image_path|video_idx]')
+        exit(1)
 
-    # model_path = "../models/best_nms_extended.onnx"
     model_path = sys.argv[1]
 
     detector = YOLOv8(model_path)
 
     try:
         img = cv2.imread(sys.argv[2])
+        if img is None:
+            print("Image could not be loaded")
+            exit(2)
         boxes, scores, ids = detector(img)
         combined_img = detector.draw_detections(img)
         cv2.namedWindow("Output", cv2.WINDOW_NORMAL)
         cv2.imshow("Output", combined_img)
         cv2.waitKey(0)
-    except:
+    except cv2.error:
         camera = cv2.VideoCapture(int(sys.argv[2]))
         while True:
             ret, img = camera.read()

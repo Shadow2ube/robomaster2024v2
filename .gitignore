@@ -1,4 +1,5 @@
 /.venv/
 /testing/
-*.onnx
 /.idea/
+models/*
+!models/*.pt

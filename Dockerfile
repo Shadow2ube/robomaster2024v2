@@ -24,6 +24,7 @@ RUN wget https://nvidia.box.com/shared/static/fjtbno0vpo676a25cgvuqc1wty0fkkg6.w
 RUN git clone --branch v0.11.1 https://github.com/pytorch/vision torchvision
 ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64
 RUN cd torchvision  && python3 setup.py install
+RUN cd /tmp/ultralytics && pip3 install .
 
 #RUN apt-get install -y --no-install-recommends \
 #    build-essential software-properties-common libopenblas-dev \

@@ -10,7 +10,7 @@ ADD ${CONVERTER_PATH} /convert.py
 RUN apt-get update \
     && apt-get install -y python3 python3-pip ffmpeg libsm6 libxext6 git
 RUN pip3 install ultralytics
-RUN yolo export model=model.pt format=onnx --simplify
+RUN yolo export model=model.pt format=onnx simplify=true int8=true
 RUN pip3 install onnx
 RUN python3 /convert.py /model.pt
 

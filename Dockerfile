@@ -71,7 +71,7 @@ RUN pip3 install \
     nvidia-pyindex \
     nvidia-tensorrt==8.4.1.5 \
     pycuda \
-    "protobuf<4.21.3" \
+    "protobuf==4.21.3" \
     onnxruntime-gpu \
     "onnx>=1.9.0" \
     "onnx-simplifier>=0.3.6" \

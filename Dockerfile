@@ -20,12 +20,12 @@ RUN pip3 install \
     nvidia-pyindex \
     nvidia-tensorrt==8.4.1.5 \
     pycuda \
-    protobuf<4.21.3 \
     onnxruntime-gpu \
-    onnx>=1.9.0 \
-    onnx-simplifier>=0.3.6 \
+    "onnx>=1.9.0" \
+    "onnx-simplifier>=0.3.6" \
     seaborn \
-    numpy==1.22.0
+    "numpy==1.22.0" \
+    "protobuf==4.21.3"
 
 RUN git clone https://github.com/Linaom1214/tensorrt-python.git \
     && cd tensorrt-python \
@@ -71,12 +71,12 @@ RUN pip3 install \
     nvidia-pyindex \
     nvidia-tensorrt==8.4.1.5 \
     pycuda \
-    protobuf<4.21.3 \
     onnxruntime-gpu \
-    onnx>=1.9.0 \
-    onnx-simplifier>=0.3.6 \
+    "onnx>=1.9.0" \
+    "onnx-simplifier>=0.3.6" \
     seaborn \
-    numpy==1.22.0
+    "numpy==1.22.0" \
+    "protobuf==4.21.3"
 
 
 RUN useradd -m --uid 1000 dockeruser && groupmod --gid 985 video && usermod -a -G video dockeruser

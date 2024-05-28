@@ -10,26 +10,9 @@ ADD ${CONVERTER_PATH} /convert.py
 RUN apt-get update \
     && apt-get install -y python3 python3-pip ffmpeg libsm6 libxext6 git
 RUN pip3 install ultralytics
-RUN yolo export model=model.pt format=onnx
+RUN yolo export model=model.pt format=onnx --simplify
 RUN pip3 install onnx
 RUN python3 /convert.py /model.pt
-
-RUN pip3 install \
-    PyYAML \
-    Pillow \
-    nvidia-pyindex \
-    nvidia-tensorrt \
-    pycuda \
-    onnxruntime-gpu \
-    "onnx>=1.9.0" \
-    "onnx-simplifier>=0.3.6" \
-    seaborn \
-    "numpy==1.22.0" \
-    "protobuf==4.21.3"
-
-RUN git clone https://github.com/Linaom1214/tensorrt-python.git \
-    && cd tensorrt-python \
-    && python3 export.py -o /final -e /model.trt -p fp16
 
 FROM nvcr.io/nvidia/l4t-ml:r32.7.1-py3
 
@@ -64,20 +47,6 @@ RUN ./build.sh --update --config Release --build --build_wheel \
 
 ENV ONNXRUNTIME_WHL=/tmp/onnxruntime/build/Linux/Release/dist/onnxruntime_gpu-${ONNXRUNTIME_VERSION}-cp36-cp36m-linux_aarch64.whl
 RUN python3 -m pip install ${ONNXRUNTIME_WHL}
-
-RUN pip3 install \
-    PyYAML \
-    Pillow \
-    nvidia-pyindex \
-    nvidia-tensorrt==8.4.1.5 \
-    pycuda \
-    onnxruntime-gpu \
-    "onnx>=1.9.0" \
-    "onnx-simplifier>=0.3.6" \
-    seaborn \
-    "numpy==1.22.0" \
-    "protobuf==4.21.3"
-
 
 RUN useradd -m --uid 1000 dockeruser && groupmod --gid 985 video && usermod -a -G video dockeruser
 RUN mkdir -p /opt/detect && chown dockeruser:dockeruser /opt/detect -R

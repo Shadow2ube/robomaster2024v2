@@ -1,40 +1,86 @@
-FROM nvcr.io/nvidia/l4t-ml:r32.7.1-py3
+FROM ubuntu:focal as pt_to_onnx
 
-ENV DEBIAN_FRONTEND=noninteractive CMAKE_VERSION=3.18.0
+ENV DEBIAN_FRONTEND=noninteractive
+
+ARG MODEL_PATH=./model.pt
+ADD ${MODEL_PATH} /model.pt
+ARG CONVERTER_PATH=./src/convertv8onnx.py
+ADD ${CONVERTER_PATH} /convert.py
+
+RUN apt-get update \
+    && apt-get install -y python3 python3-pip ffmpeg libsm6 libxext6 git
+RUN pip3 install ultralytics
+RUN yolo export model=model.pt format=onnx
+RUN pip3 install onnx
+RUN python3 /convert.py /model.pt
+
+RUN pip3 install \
+    PyYAML \
+    Pillow \
+    nvidia-pyindex \
+    nvidia-tensorrt==8.4.1.5 \
+    pycuda \
+    protobuf<4.21.3 \
+    onnxruntime-gpu \
+    onnx>=1.9.0 \
+    onnx-simplifier>=0.3.6 \
+    seaborn \
+    numpy==1.22.0
+
+RUN git clone https://github.com/Linaom1214/tensorrt-python.git \
+    && cd tensorrt-python \
+    && python3 export.py -o /final -e /model.trt -p fp16
+
+FROM nvcr.io/nvidia/l4t-ml:r32.7.1-py3
 
 RUN apt-get update && apt-get install -y wget python3-pip git
 
 WORKDIR /tmp
 
-RUN apt-get install -y libfreetype6-dev
 
-RUN git clone https://github.com/ultralytics/yolov5
-RUN cd /tmp/yolov5 \
-    && sed -i \
-      -e 's/torch/# torch/g' \
-      -e 's/gitpython>=3.1.30/gitpython>=3.1.20/g' \
-      -e 's/numpy>=1.23.5/numpy>=1.19.5/g' \
-      -e 's/pillow/# pillow/g' \
-      -e 's/requests>=2.32.0/requests>=2.27.1/g' \
-      requirements.txt \
-    && pip3 install -r requirements.txt
+RUN apt-get install -y --no-install-recommends \
+    build-essential software-properties-common libopenblas-dev \
+	libpython3.6-dev python3-pip python3-dev
 
-RUN apt-get install -y libopenblas-base libopenmpi-dev libjpeg-dev zlib1g-dev
+ENV DEBIAN_FRONTEND=noninteractive CMAKE_VERSION=3.18.0
+RUN apt-get update && apt-get install -y cmake make wget libssl-dev openssl qt5-default gcc g++ \
+    && mkdir /tmp/cmake-build \
+    && cd /tmp/cmake-build \
+    && wget -c --show-progress https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/cmake-${CMAKE_VERSION}.tar.gz \
+    && tar xvf cmake-${CMAKE_VERSION}.tar.gz \
+    && mkdir ${CMAKE_VERSION}-build \
+    && cd ${CMAKE_VERSION}-build \
+    && cmake -DBUILD_QtDialog=ON -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake ../cmake-${CMAKE_VERSION} \
+    && make -j $(nproc) \
+    && make install
 
-ENV TORCH_WHEEL=torch-1.10.0-cp36-cp36m-linux_aarch64.whl
-RUN wget https://nvidia.box.com/shared/static/fjtbno0vpo676a25cgvuqc1wty0fkkg6.whl -O ${TORCH_WHEEL} && pip3 install ${TORCH_WHEEL}
+ENV ONNXRUNTIME_VERSION=1.9.1
+RUN git clone --branch v${ONNXRUNTIME_VERSION} --recursive https://github.com/microsoft/onnxruntime
 
-RUN git clone --branch v0.11.1 https://github.com/pytorch/vision torchvision
-ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64
-RUN cd torchvision  && python3 setup.py install
-RUN cd /tmp/ultralytics && pip3 install .
+WORKDIR onnxruntime
 
-#RUN apt-get install -y --no-install-recommends \
-#    build-essential software-properties-common libopenblas-dev \
-#	libpython3.6-dev python3-pip python3-dev
+RUN ./build.sh --update --config Release --build --build_wheel \
+   --use_cuda --cuda_home /usr/local/cuda-10.2 --cudnn_home /usr/lib/aarch64-linux-gnu
 
-#RUN useradd -m --uid 1000 dockeruser && groupmod --gid 985 video && usermod -a -G video dockeruser
-#RUN mkdir -p /opt/detect && chown dockeruser:dockeruser /opt/detect -R
-#USER dockeruser
+ENV ONNXRUNTIME_WHL=/tmp/onnxruntime/build/Linux/Release/dist/onnxruntime_gpu-${ONNXRUNTIME_VERSION}-cp36-cp36m-linux_aarch64.whl
+RUN python3 -m pip install ${ONNXRUNTIME_WHL}
+
+RUN pip3 install \
+    PyYAML \
+    Pillow \
+    nvidia-pyindex \
+    nvidia-tensorrt==8.4.1.5 \
+    pycuda \
+    protobuf<4.21.3 \
+    onnxruntime-gpu \
+    onnx>=1.9.0 \
+    onnx-simplifier>=0.3.6 \
+    seaborn \
+    numpy==1.22.0
+
+RUN useradd -m --uid 1000 dockeruser && groupmod --gid 985 video && usermod -a -G video dockeruser
+RUN mkdir -p /opt/detect && chown dockeruser:dockeruser /opt/detect -R
+COPY --from=pt_to_onnx /model.trt /model.trt
+USER dockeruser
 
 CMD ["/bin/bash"]

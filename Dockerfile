@@ -18,7 +18,7 @@ RUN pip3 install \
     PyYAML \
     Pillow \
     nvidia-pyindex \
-    nvidia-tensorrt==8.4.1.5 \
+    nvidia-tensorrt \
     pycuda \
     onnxruntime-gpu \
     "onnx>=1.9.0" \

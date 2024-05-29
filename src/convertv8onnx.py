@@ -155,7 +155,7 @@ core_model = convert_version(updated_onnx_model, target_ir_version)
 print(f"core_model version : {core_model.ir_version}")
 onnx.checker.check_model(core_model)
 # force to pass the version check, the convert seems success but the ir_version does NOT change
-core_model.ir_version = 8
+core_model.ir_version = 15
 
 # core_model = updated_onnx_model
 # post_process_model = convert_version(nms_postprocess_onnx_model_sim, target_ir_version)
@@ -164,7 +164,7 @@ post_process_model = convert_version(nms_postprocess_onnx_model, target_ir_versi
 print(f"post_process_model version : {post_process_model.ir_version}")
 onnx.checker.check_model(post_process_model)
 # force to pass the version check, the convert seems success but the ir_version does NOT change
-post_process_model.ir_version = 8
+post_process_model.ir_version = 15
 
 combined_onnx_model = merge_models(core_model, post_process_model, io_map=[
     ('/model.22/Mul_2_output_0', 'boxes'),
@@ -172,5 +172,6 @@ combined_onnx_model = merge_models(core_model, post_process_model, io_map=[
     ('selected_indices', 'selected_indices')
 ])
 
-core_model = convert_version(combined_onnx_model, target_ir_version)
+core_model = convert_version(combined_onnx_model, 15)
+core_model.ir_version = 15
 onnx.save(combined_onnx_model, combined_onnx_path)

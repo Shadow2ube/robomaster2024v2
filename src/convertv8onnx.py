@@ -172,4 +172,5 @@ combined_onnx_model = merge_models(core_model, post_process_model, io_map=[
     ('selected_indices', 'selected_indices')
 ])
 
+core_model = convert_version(combined_onnx_model, target_ir_version)
 onnx.save(combined_onnx_model, combined_onnx_path)

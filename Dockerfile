@@ -2,14 +2,15 @@ FROM ubuntu:focal as pt_to_onnx
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+RUN apt-get update \
+    && apt-get install -y python3 python3-pip ffmpeg libsm6 libxext6 git
+RUN pip3 install ultralytics
+
 ARG MODEL_PATH=./model.pt
 ADD ${MODEL_PATH} /model.pt
 ARG CONVERTER_PATH=./src/convertv8onnx.py
 ADD ${CONVERTER_PATH} /convert.py
 
-RUN apt-get update \
-    && apt-get install -y python3 python3-pip ffmpeg libsm6 libxext6 git
-RUN pip3 install ultralytics
 RUN yolo export model=model.pt format=onnx simplify=true int8=true opset=15
 RUN pip3 install onnx
 RUN python3 /convert.py /model.pt

@@ -13,7 +13,6 @@ RUN pip3 install ultralytics
 RUN yolo export model=model.pt format=onnx simplify=true int8=true opset=15
 RUN pip3 install onnx
 RUN python3 /convert.py /model.pt
-RUN yolo export model=model.onnx format=onnx simplify=true int8=true opset=15
 
 FROM nvcr.io/nvidia/l4t-ml:r32.7.1-py3
 

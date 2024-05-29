@@ -50,7 +50,7 @@ RUN python3 -m pip install ${ONNXRUNTIME_WHL}
 
 RUN useradd -m --uid 1000 dockeruser && groupmod --gid 985 video && usermod -a -G video dockeruser
 RUN mkdir -p /opt/detect && chown dockeruser:dockeruser /opt/detect -R
-COPY --from=pt_to_onnx /model.trt /model.onnx
+COPY --from=pt_to_onnx /model.onnx /model.onnx
 USER dockeruser
 
 CMD ["/bin/bash"]

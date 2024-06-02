@@ -161,6 +161,7 @@ if __name__ == '__main__':
             print("Image could not be loaded")
             exit(2)
         boxes, scores, ids = detector(img)
+        print('scores:', scores)
         combined_img = detector.draw_detections(img)
         cv2.namedWindow("Output", cv2.WINDOW_NORMAL)
         cv2.imshow("Output", combined_img)

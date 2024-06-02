@@ -18,7 +18,7 @@ from ultralytics import YOLO
 model = YOLO(sys.argv[1])
 onnx_model_path = './model.onnx'
 
-model.export(format='onnx', simplify=True, imgsz=[640, 640], batch=1)
+model.export(format='onnx', data='data.yaml', int8=True, simplify=True, imgsz=[640, 640], batch=1)
 
 # load the model and manipulate it
 onnx_model = onnx.load_model(onnx_model_path)
@@ -155,7 +155,7 @@ core_model = convert_version(updated_onnx_model, target_ir_version)
 print(f"core_model version : {core_model.ir_version}")
 onnx.checker.check_model(core_model)
 # force to pass the version check, the convert seems success but the ir_version does NOT change
-core_model.ir_version = 15
+core_model.ir_version = 8
 
 # core_model = updated_onnx_model
 # post_process_model = convert_version(nms_postprocess_onnx_model_sim, target_ir_version)
@@ -164,7 +164,7 @@ post_process_model = convert_version(nms_postprocess_onnx_model, target_ir_versi
 print(f"post_process_model version : {post_process_model.ir_version}")
 onnx.checker.check_model(post_process_model)
 # force to pass the version check, the convert seems success but the ir_version does NOT change
-post_process_model.ir_version = 15
+post_process_model.ir_version = 8
 
 combined_onnx_model = merge_models(core_model, post_process_model, io_map=[
     ('/model.22/Mul_2_output_0', 'boxes'),

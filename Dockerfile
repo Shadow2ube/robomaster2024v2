@@ -7,11 +7,13 @@ RUN apt-get update \
 RUN pip3 install ultralytics
 
 ARG MODEL_PATH=./model.pt
-ADD ${MODEL_PATH} /model.pt
+ARG DATA_PATH=./data.yaml
 ARG CONVERTER_PATH=./src/convertv8onnx.py
+ADD ${MODEL_PATH} /model.pt
+ADD ${DATA_PATH} /data.yaml
 ADD ${CONVERTER_PATH} /convert.py
 
-RUN yolo export model=model.pt format=onnx simplify=true int8=true opset=15
+#RUN yolo export model=model.pt format=onnx simplify=true int8=true opset=15
 RUN pip3 install onnx
 RUN python3 /convert.py /model.pt
 

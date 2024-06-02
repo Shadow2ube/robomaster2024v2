@@ -1,0 +1,20 @@
+names:
+- armor
+- base
+- car
+- rune
+- rune-blue
+- rune-gray
+- rune-grey
+- rune-red
+- watcher
+nc: 9
+roboflow:
+  license: CC BY 4.0
+  project: robomasters-285km
+  url: https://universe.roboflow.com/roboflow-100/robomasters-285km/dataset/2
+  version: 2
+  workspace: roboflow-100
+test: test/images
+train: train/images
+val: valid/images

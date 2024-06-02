@@ -11,7 +11,7 @@ import torch
 from onnx import TensorProto
 from onnx.compose import merge_models
 from onnx.tools import update_model_dims
-from onnx.version_converter import convert_version
+from onnx import version_converter
 from torch import nn
 from ultralytics import YOLO
 
@@ -150,7 +150,7 @@ onnx.save(nms_postprocess_onnx_model, "./model_sim.onnx")
 combined_onnx_path = "./final.onnx"
 
 target_ir_version = 15
-core_model = convert_version(updated_onnx_model, target_ir_version)
+core_model = verson_converter.convert_version(updated_onnx_model, target_ir_version)
 # this output is weird, it still say it's version 8, even after convert
 print(f"core_model version : {core_model.ir_version}")
 onnx.checker.check_model(core_model)
@@ -159,7 +159,7 @@ core_model.ir_version = 8
 
 # core_model = updated_onnx_model
 # post_process_model = convert_version(nms_postprocess_onnx_model_sim, target_ir_version)
-post_process_model = convert_version(nms_postprocess_onnx_model, target_ir_version)
+post_process_model = version_converter.convert_version(nms_postprocess_onnx_model, target_ir_version)
 # this output is weird, it still say it's version 7, even after convert
 print(f"post_process_model version : {post_process_model.ir_version}")
 onnx.checker.check_model(post_process_model)
@@ -172,6 +172,6 @@ combined_onnx_model = merge_models(core_model, post_process_model, io_map=[
     ('selected_indices', 'selected_indices')
 ])
 
-core_model = convert_version(combined_onnx_model, 15)
+core_model = version_converter.convert_version(combined_onnx_model, 15)
 core_model.ir_version = 15
-onnx.save(combined_onnx_model, combined_onnx_path)
+onnx.save(core_model, combined_onnx_path)

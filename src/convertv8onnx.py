@@ -150,7 +150,7 @@ onnx.save(nms_postprocess_onnx_model, "./model_sim.onnx")
 combined_onnx_path = "./final.onnx"
 
 target_ir_version = 15
-core_model = verson_converter.convert_version(updated_onnx_model, target_ir_version)
+core_model = version_converter.convert_version(updated_onnx_model, target_ir_version)
 # this output is weird, it still say it's version 8, even after convert
 print(f"core_model version : {core_model.ir_version}")
 onnx.checker.check_model(core_model)

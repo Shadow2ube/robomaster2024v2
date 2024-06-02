@@ -180,5 +180,5 @@ onnx.save(core_model, combined_onnx_path)
 model_path = "final.onnx"
 original_model = onnx.load(model_path)
 
-converted_model = version_converter.convert_version(original_model, <int target_version>)
+converted_model = version_converter.convert_version(original_model, 15)
 onnx.save(converted_model, 'final.onnx')

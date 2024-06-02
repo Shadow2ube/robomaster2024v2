@@ -5,6 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
     && apt-get install -y python3 python3-pip ffmpeg libsm6 libxext6 git
 RUN pip3 install ultralytics
+RUN pip3 install onnx
 
 ARG MODEL_PATH=./model.pt
 ARG DATA_PATH=./data.yaml
@@ -14,7 +15,6 @@ ADD ${DATA_PATH} /data.yaml
 ADD ${CONVERTER_PATH} /convert.py
 
 #RUN yolo export model=model.pt format=onnx simplify=true int8=true opset=15
-RUN pip3 install onnx
 RUN python3 /convert.py /model.pt
 
 FROM nvcr.io/nvidia/l4t-ml:r32.7.1-py3

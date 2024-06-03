@@ -10,7 +10,7 @@ RUN pip3 install onnx
 ARG MODEL_PATH=./model.pt
 ARG DATA_PATH=./data.yaml
 ARG PT_CONVERTER_PATH=./src/convertv8onnx.py
-ARG VERSION_CONVERTER_PATH=./src/convertv8onnx.py
+ARG VERSION_CONVERTER_PATH=./src/convertonnx15.py
 ADD ${MODEL_PATH} /model.pt
 ADD ${DATA_PATH} /data.yaml
 ADD ${PT_CONVERTER_PATH} /ptconvert.py

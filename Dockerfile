@@ -4,7 +4,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
     && apt-get install -y python3 python3-pip ffmpeg libsm6 libxext6 git
-RUN pip3 install ultralytics
+RUN pip3 install ultralytics=8.0.196
 RUN pip3 install onnx
 
 ARG MODEL_PATH=./model.pt

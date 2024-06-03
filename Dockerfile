@@ -9,13 +9,16 @@ RUN pip3 install onnx
 
 ARG MODEL_PATH=./model.pt
 ARG DATA_PATH=./data.yaml
-ARG CONVERTER_PATH=./src/convertv8onnx.py
+ARG PT_CONVERTER_PATH=./src/convertv8onnx.py
+ARG VERSION_CONVERTER_PATH=./src/convertv8onnx.py
 ADD ${MODEL_PATH} /model.pt
 ADD ${DATA_PATH} /data.yaml
-ADD ${CONVERTER_PATH} /convert.py
+ADD ${PT_CONVERTER_PATH} /ptconvert.py
+ADD ${VERSION_CONVERTER_PATH} /vconvert.py
 
 #RUN yolo export model=model.pt format=onnx simplify=true int8=true opset=15
-RUN python3 /convert.py /model.pt
+RUN python3 /ptconvert.py /model.pt /pre_final.onnx
+RUN python3 /vconvert.py /pre_final.onnx /final.onnx
 
 FROM nvcr.io/nvidia/l4t-ml:r32.7.1-py3
 

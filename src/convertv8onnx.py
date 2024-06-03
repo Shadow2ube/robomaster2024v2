@@ -147,7 +147,7 @@ nms_postprocess_onnx_model = onnx.load_model("./NMS_after.onnx")
 # nms_postprocess_onnx_model_sim, check = onnxsim.simplify(nms_postprocess_onnx_model)
 onnx.save(nms_postprocess_onnx_model, "./model_sim.onnx")
 
-combined_onnx_path = "./pre_final.onnx"
+combined_onnx_path = sys.argv[2]
 
 target_ir_version = 15
 core_model = version_converter.convert_version(updated_onnx_model, target_ir_version)
@@ -175,11 +175,3 @@ combined_onnx_model = merge_models(core_model, post_process_model, io_map=[
 core_model = version_converter.convert_version(combined_onnx_model, 15)
 core_model.ir_version = 8
 onnx.save(core_model, combined_onnx_path)
-
-# Preprocessing: load the model to be converted.
-model_path = "pre_final.onnx"
-original_model = onnx.load(model_path)
-
-converted_model = version_converter.convert_version(original_model, 15)
-converted_model.opset_import.version = 15
-onnx.save(converted_model, 'final.onnx')

@@ -147,7 +147,7 @@ nms_postprocess_onnx_model = onnx.load_model("./NMS_after.onnx")
 # nms_postprocess_onnx_model_sim, check = onnxsim.simplify(nms_postprocess_onnx_model)
 onnx.save(nms_postprocess_onnx_model, "./model_sim.onnx")
 
-combined_onnx_path = "./final.onnx"
+combined_onnx_path = "./pre_final.onnx"
 
 target_ir_version = 15
 core_model = version_converter.convert_version(updated_onnx_model, target_ir_version)

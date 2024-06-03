@@ -177,8 +177,9 @@ core_model.ir_version = 8
 onnx.save(core_model, combined_onnx_path)
 
 # Preprocessing: load the model to be converted.
-model_path = "final.onnx"
+model_path = "pre_final.onnx"
 original_model = onnx.load(model_path)
 
 converted_model = version_converter.convert_version(original_model, 15)
+converted_model.opset_import.version = 15
 onnx.save(converted_model, 'final.onnx')

@@ -18,7 +18,7 @@
 #
 ##RUN yolo export model=model.pt format=onnx simplify=true int8=true opset=15
 #RUN python3 /ptconvert.py /model.pt /pre_final.onnx
-#RUN python3 /vconvert.py /pre_final.onnx /final.onnx
+#RUN python3 /vconvert.py /pre_final.onnx /model.onnx
 
 FROM nvcr.io/nvidia/l4t-ml:r32.7.1-py3
 

@@ -1,31 +1,30 @@
-FROM ubuntu:focal as pt_to_onnx
-
-ENV DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update \
-    && apt-get install -y python3 python3-pip ffmpeg libsm6 libxext6 git
-RUN pip3 install ultralytics
-RUN pip3 install onnx
-
-ARG MODEL_PATH=./model.pt
-ARG DATA_PATH=./data.yaml
-ARG PT_CONVERTER_PATH=./src/convertv8onnx.py
-ARG VERSION_CONVERTER_PATH=./src/convertonnx15.py
-ADD ${MODEL_PATH} /model.pt
-ADD ${DATA_PATH} /data.yaml
-ADD ${PT_CONVERTER_PATH} /ptconvert.py
-ADD ${VERSION_CONVERTER_PATH} /vconvert.py
-
-#RUN yolo export model=model.pt format=onnx simplify=true int8=true opset=15
-RUN python3 /ptconvert.py /model.pt /pre_final.onnx
-RUN python3 /vconvert.py /pre_final.onnx /final.onnx
+#FROM ubuntu:focal as pt_to_onnx
+#
+#ENV DEBIAN_FRONTEND=noninteractive
+#
+#RUN apt-get update \
+#    && apt-get install -y python3 python3-pip ffmpeg libsm6 libxext6 git
+#RUN pip3 install ultralytics
+#RUN pip3 install onnx
+#
+#ARG MODEL_PATH=./model.pt
+#ARG DATA_PATH=./data.yaml
+#ARG PT_CONVERTER_PATH=./src/convertv8onnx.py
+#ARG VERSION_CONVERTER_PATH=./src/convertonnx15.py
+#ADD ${MODEL_PATH} /model.pt
+#ADD ${DATA_PATH} /data.yaml
+#ADD ${PT_CONVERTER_PATH} /ptconvert.py
+#ADD ${VERSION_CONVERTER_PATH} /vconvert.py
+#
+##RUN yolo export model=model.pt format=onnx simplify=true int8=true opset=15
+#RUN python3 /ptconvert.py /model.pt /pre_final.onnx
+#RUN python3 /vconvert.py /pre_final.onnx /final.onnx
 
 FROM nvcr.io/nvidia/l4t-ml:r32.7.1-py3
 
 RUN apt-get update && apt-get install -y wget python3-pip git
 
 WORKDIR /tmp
-
 
 RUN apt-get install -y --no-install-recommends \
     build-essential software-properties-common libopenblas-dev \
@@ -56,7 +55,9 @@ RUN python3 -m pip install ${ONNXRUNTIME_WHL}
 
 RUN useradd -m --uid 1000 dockeruser && groupmod --gid 985 video && usermod -a -G video dockeruser
 RUN mkdir -p /opt/detect && chown dockeruser:dockeruser /opt/detect -R
-COPY --from=pt_to_onnx /model.onnx /model.onnx
+
+ARG MODEL_PATH=./models/model.onnx
+ADD ${MODEL_PATH} /model.onnx
 USER dockeruser
 
 CMD ["/bin/bash"]
